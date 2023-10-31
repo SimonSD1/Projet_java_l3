@@ -2,13 +2,11 @@ package up.mi.ssdjha.projet;
 
 public class Ville {
 
-  public int n; // Nombre de villes (26 max)
+  	public int n; // Nombre de villes (26 max)
 	public String nom_villes;
 	//public String villes[];
-	
-	//J'ai mis les attributs en public au cas où on pour ajouter les routes
-	//si on doit faire un héritage
-	
+
+	//J'ai mis les attibuts en public pour l'instant au cas où on fait de l'héritage
 	
 	public Ville(int n, String nom_villes) {
 		this.n = n;
