@@ -25,7 +25,7 @@ public class Ville {
 	/**
 	 * @return le nom de la ville
 	 **/
-	public String getNomVille() {
+	public String getNom() {
 		return this.nom_ville;
 	}
 	/**

@@ -1,8 +1,17 @@
 pkg_pth="src/up/mi/ssdjha/projet/"
 bin="bin/"
 
-Ville:
+
+villeInexistanteException:
+	javac -cp bin/ ${pkg_pth}VilleInexistanteException.java -d bin/
+
+routeInexistanteException:
+	javac -cp bin/ ${pkg_pth}RouteInexistanteException.java -d bin/
+
+ville:
 	javac -cp bin/ ${pkg_pth}Ville.java -d bin/
 
-Commu:
+commu:
 	javac -cp bin/ ${pkg_pth}CommunauteAgglomeration.java -d bin/
+
+all: ville villeInexistanteException routeInexistanteException commu
