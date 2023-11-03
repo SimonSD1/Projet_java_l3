@@ -1,16 +1,38 @@
 package up.mi.ssdjha.projet;
 
+/**
+ * Une Ville
+ *
+ **/
 public class Ville {
 
-  	public int n; // Nombre de villes (26 max)
-	public String nom_villes;
-	//public String villes[];
+  	private int n; // Nombre de villes (26 max)
+	private String nom_ville;
+	boolean borne;
 
 	//J'ai mis les attibuts en public pour l'instant au cas où on fait de l'héritage
-	
-	public Ville(int n, String nom_villes) {
+	/**
+	 * Constructeur de Ville
+	 *
+		 * @param n numéro de la ville
+		 * @param nom_ville nom de la ville
+	 **/
+	public Ville(int n, String nom_ville) {
 		this.n = n;
-		this.nom_villes = nom_villes;
+		this.nom_ville = nom_ville;
+		this.borne = false;
+	}
+	/**
+	 * @return le nom de la ville
+	 **/
+	public String getNomVille() {
+		return this.nom_ville;
+	}
+	/**
+	 * @return True si la ville possède une borne
+	 **/
+	public boolean possedeBorne() {
+		return this.borne;
 	}
 	
 	public int nombreVille(int e) {
@@ -33,7 +55,6 @@ public class Ville {
 			
 			return false;
 			
-		}		
-		
-
+		}
+	}
 }
