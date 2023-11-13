@@ -10,9 +10,16 @@ public class InterfaceTextuelle {
 	public static void debuteInterface() {
 	
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Combien de villes y a-t-il ?");
 		
-		int nbVilles = scan.nextInt();
+		int nbVilles=1;
+		do {
+			if(nbVilles<1) {
+				System.out.println("nombre de villes trop petit");
+			}
+			System.out.println("Combien de villes y a-t-il ?");
+			nbVilles = scan.nextInt();
+		}while(nbVilles<1);
+		
 		
 		CommunauteAgglomeration commu = new CommunauteAgglomeration();
 		
@@ -42,20 +49,34 @@ public class InterfaceTextuelle {
 				System.out.println(v.getNom()+" "+indice);
 				indice++;
 			}
-			System.out.println("Que voulez vous faire ?");
-			System.out.println("1 : ajouter zone de recharge");
-			System.out.println("2 : retirer zone de recharge");
-			System.out.println("3 : fin");
 			
-			choix=scan.nextInt();
 			
-			int numeroVille;
+			do {
+				System.out.println("Que voulez vous faire ?");
+				System.out.println("1 : ajouter zone de recharge");
+				System.out.println("2 : retirer zone de recharge");
+				System.out.println("3 : fin");
+				choix=scan.nextInt();
+
+			}while(choix!=1 && choix!=2 && choix !=3);
+			
+			int numeroVille=0;
 			Ville v;
 			switch(choix) {
 			
 			case 1:
-				System.out.println("quelle ville ?");
-				numeroVille=scan.nextInt();
+				
+				
+				
+				do {
+					if(numeroVille>indice || numeroVille<0) {
+						System.out.println("ville inexistante");
+					}
+					System.out.println("quelle ville ?");
+					numeroVille=scan.nextInt();
+				}while(numeroVille>indice || numeroVille<0);
+				
+				
 				v = commu.getVilles().get(numeroVille);
 				if(v.getBorne()) {
 					System.out.println("cette ville a deja une borne");
@@ -66,8 +87,21 @@ public class InterfaceTextuelle {
 				break;
 				
 			case 2:
-				System.out.println("quelle ville ?");
-				numeroVille = scan.nextInt();
+				
+				
+				
+				
+				
+				
+				do {
+					if(numeroVille>indice || numeroVille<0) {
+						System.out.println("ville inexistante");
+					}
+					System.out.println("quelle ville ?");
+					numeroVille=scan.nextInt();
+				}while(numeroVille>indice || numeroVille<0);
+				
+				
 				v =commu.getVilles().get(numeroVille);
 				
 				if(v.getBorne()==false) {
@@ -94,12 +128,17 @@ public class InterfaceTextuelle {
 	public static void boucleCreationRoute(Scanner scan, CommunauteAgglomeration commu) {
 		int choix=0;
 		do {
-			System.out.println("Que voulez vous faire ?");
-			System.out.println("1 : ajouter une route, 2 : fin");
 			
-			choix = scan.nextInt();
+			
+			do {
+				System.out.println("Que voulez vous faire ?");
+				System.out.println("1 : ajouter une route, 2 : fin");
+				choix = scan.nextInt();
+
+			}while(choix!=1 && choix!=2);
 			
 			switch(choix) {
+			
 			case 1:
 				
 				Vector<Ville> villes = commu.getVilles();
@@ -109,11 +148,29 @@ public class InterfaceTextuelle {
 					indice++;
 				}
 				
-				int ville1, ville2;
-				System.out.println("ville de depart ?");
-				ville1=scan.nextInt();
-				System.out.println("ville d'arrive ?");
-				ville2=scan.nextInt();
+				int ville1=0, ville2=0;
+				
+				do {
+					if(ville1>indice || ville1<0) {
+						System.out.println("ville inexistante");
+					}
+					System.out.println("ville de depart ?");
+					ville1=scan.nextInt();
+				}while(ville1>indice || ville1<0);
+				
+				boolean premiereDemande=true;
+				do {
+					if(ville2>indice || ville2<0 ) {
+						System.out.println("ville inexistante");
+					}
+					if(premiereDemande==false && ville1==ville2) {
+						System.out.println("ville identique a la premiere");
+					}
+					System.out.println("ville de d'arrive ?");
+
+					ville2=scan.nextInt();
+					premiereDemande=false;
+				}while(ville2>indice || ville2<0 || ville2==ville1);
 				
 				
 				

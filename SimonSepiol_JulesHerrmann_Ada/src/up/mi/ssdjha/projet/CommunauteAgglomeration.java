@@ -175,9 +175,9 @@ public class CommunauteAgglomeration {
 		for(Ville key : g.keySet()) {
 			sb.append("\n");
 			sb.append(key.getNom());
-			sb.append(" a une borne ? : ");
+			sb.append(" possede une borne ? : ");
 			sb.append(key.getBorne());
-			sb.append(" relie a : ");
+			sb.append(" relie à : ");
 			for(Ville v : g.get(key)) {
 				sb.append(v.getNom());
 			}
