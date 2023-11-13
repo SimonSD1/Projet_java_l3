@@ -130,6 +130,22 @@ public class CommunauteAgglomeration {
 		}
 		return villes;
 	}
+	
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Etat de la communaute d'agglomeration : \n");
+		for(Ville key : g.keySet()) {
+			sb.append("\n");
+			sb.append(key.getNom());
+			sb.append(" relie a : ");
+			for(Ville v : g.get(key)) {
+				sb.append(v.getNom());
+			}
+		}
+		
+		return sb.toString();
+	}
 		
 	/**
 	 * Short Description

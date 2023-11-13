@@ -7,18 +7,18 @@ package up.mi.ssdjha.projet;
 public class Ville {
 
 	private String nom_ville;
-	boolean borne;
+	private boolean borne;
 
 	//J'ai mis les attibuts en public pour l'instant au cas où on fait de l'héritage
 	/**
-	 * Constructeur de Ville
+	 * Constructeur de Ville avec la solution naive
 	 *
 		 * @param n numéro de la ville
 		 * @param nom_ville nom de la ville
 	 **/
 	public Ville( String nom_ville) {
 		this.nom_ville = nom_ville;
-		this.borne = false;
+		this.borne = true;
 	}
 	/**
 	 * @return le nom de la ville
@@ -55,4 +55,6 @@ public class Ville {
 			
 		}
 	}
+	
+	
 }
