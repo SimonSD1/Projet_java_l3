@@ -5,7 +5,7 @@ public class SyntaxErrorException extends RuntimeException{
 	private int lineNumber;
 	private String line;
 	public SyntaxErrorException(String message,int lineNb, String line){
-		super(message);
+		super("Syntax error on line "+lineNb+" : "+line+"\n"+message);
 		this.lineKnown = true;
 		this.lineNumber = lineNb;
 		this.line = line;

@@ -114,11 +114,24 @@ public class CommunauteAgglomeration {
 		}
 	}
 	/**
-	 * Vérifie la contrainte d'accessibilité des bornes
-	 *	*@return List<Ville> La liste de ville ne vérifiant pas la contrainte d'accessibilité
+	 * Vérifie la contrainte d'accessibilité de l'agglomération
+	 *	*@return La liste de ville ne vérifiant pas la contrainte d'accessibilité
 	 **/
-	public void aggloVerifieContrainteAccessibilite() {
+	public Vector<Ville> getListeVilleRespectePasContrainteAccessibilite() {
 		Vector<Ville> villeNonValide = new Vector<Ville>();
+
+		for(Ville ville : this.g.keySet()){
+			if(!verifieContrainteAccessibilite(ville)){
+				villeNonValide.add(ville);
+			}
+		}
+		return villeNonValide;
+	}
+	/**
+	 * Vérifie la contrainte d'accessibilité de l'agglomération
+	 *	*@return true si la ville respecte la contrainte, false sinon
+	 **/
+	public boolean getRepecteContrainteAccessibilite() {
 
 		for(Ville ville : this.g.keySet()){
 			if (ville.getBorne()){
@@ -129,11 +142,15 @@ public class CommunauteAgglomeration {
 					continue;
 				}
 			}
-			villeNonValide.add(ville);
+			return false;
 		}
+		return true;
 	}
 	
 	public boolean verifieContrainteAccessibilite(Ville v) {
+		if (v.getBorne()){
+			return true;
+		}
 		for (Ville voisin : this.g.get(v)){
 			if (voisin.getBorne()){
 				return true;
@@ -209,9 +226,9 @@ public class CommunauteAgglomeration {
 			throws FileNotFoundException, SyntaxErrorException, IOException{
 		BufferedReader br = new BufferedReader(new FileReader(file_name));
 		CommunauteAgglomeration c = new CommunauteAgglomeration();
-		Pattern pattern_ville = Pattern.compile("ville\\((\\w*)\\).");
-		Pattern pattern_route = Pattern.compile("route\\((\\w*),(\\w*)\\).");
-		Pattern pattern_recharge = Pattern.compile("recharge\\((\\w*)\\).");
+		Pattern pattern_ville = Pattern.compile("ville\\(([^()\\s]*)\\).");
+		Pattern pattern_route = Pattern.compile("route\\(([^()\\s]*),([^()\\s]*)\\).");
+		Pattern pattern_recharge = Pattern.compile("recharge\\(([^()\\s]*)\\).");
 
 		String line = null;
 		int lineNb = 0;
@@ -220,8 +237,11 @@ public class CommunauteAgglomeration {
 			Matcher matcher_ville = pattern_ville.matcher(line);
 			Matcher matcher_route = pattern_route.matcher(line);
 			Matcher matcher_recharge = pattern_recharge.matcher(line);
+			if (line.startsWith("#")){
+				continue;
+			}
 			if (matcher_ville.matches()){
-				c.ajoutVille(new Ville(matcher_ville.group(1)));
+				c.ajoutVille(new Ville(matcher_ville.group(1),false));
 			}
 			else if (matcher_route.matches()){
 				try{
