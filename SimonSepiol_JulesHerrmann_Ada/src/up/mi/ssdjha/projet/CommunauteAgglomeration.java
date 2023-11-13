@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 
 import java.lang.IllegalArgumentException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Un graphe représentant des villes reliés par des routes
@@ -19,6 +20,7 @@ import java.io.FileNotFoundException;
 public class CommunauteAgglomeration {
 
 	private HashMap<Ville,Vector<Ville>> g;
+	private HashMap<String,Ville> nameToVille;
 
 	/**
 	 * Constructeur de CommunauteAgglomeration
@@ -35,6 +37,7 @@ public class CommunauteAgglomeration {
 		this.g = new HashMap<Ville,Vector<Ville>>();
 		for (Ville ville : villes_col){
 			this.g.putIfAbsent(ville,new Vector<Ville>());
+			this.nameToVille.putIfAbsent(ville.getNom(),ville);
 		}
 	}
 	/**
@@ -44,6 +47,7 @@ public class CommunauteAgglomeration {
 	 **/
 	public void ajoutVille(Ville ville) {
 		this.g.putIfAbsent(ville,new Vector<Ville>());
+		this.nameToVille.putIfAbsent(ville.getNom(),ville);
 	}
 	/**
 	 * Ajoute une nouvelle route entre deux villes
@@ -75,7 +79,9 @@ public class CommunauteAgglomeration {
 	 **/
 	public void ajoutRouteEtVilles(Ville ville1, Ville ville2) {
 		Vector<Ville> voisinsVille1 = this.g.getOrDefault(ville1,new Vector<Ville>());
+		this.nameToVille.putIfAbsent(ville1.getNom(),ville1);
 		Vector<Ville> voisinsVille2 = this.g.getOrDefault(ville2,new Vector<Ville>());
+		this.nameToVille.putIfAbsent(ville2.getNom(),ville2);
 
 		if(!voisinsVille1.contains(ville2)){
 			voisinsVille1.add(ville2);
@@ -114,11 +120,11 @@ public class CommunauteAgglomeration {
 		Vector<Ville> villeNonValide = new Vector<Ville>();
 
 		for(Ville ville : this.g.keySet()){
-			if (ville.possedeBorne()){
+			if (ville.getBorne()){
 				continue;
 			}
 			for (Ville voisin : this.g.get(ville)){
-				if (voisin.possedeBorne()){
+				if (voisin.getBorne()){
 					continue;
 				}
 			}
@@ -135,17 +141,31 @@ public class CommunauteAgglomeration {
 		}
 		return villes;
 	}
+	/**
+	 * Short Description
+	 * @param String nom d'une ville
+	 * @throws VilleInexistanteException si aucune ville ne porte se nom
+	 * @return Ville la ville portant ce nom
+	 **/
+	public Ville getVilleFromName(String nomVille) throws VilleInexistanteException {
+		Ville ville = this.nameToVille.get(nomVille);
+		if (ville == null){
+			throw new VilleInexistanteException("Aucune ville ne s'appelle " + nomVille);
+		}
+		return ville;
+	}
 		
 	/**
 	 * Short Description
 	 *
 	 * @throws 
 	 **/
-	public static CommunauteAgglomeration createFromFile(String file_name)throws FileNotFoundException, SyntaxErrorException{
+	public static CommunauteAgglomeration createFromFile(String file_name)
+			throws FileNotFoundException, SyntaxErrorException, IOException{
 		BufferedReader br = new BufferedReader(new FileReader(file_name));
 		CommunauteAgglomeration c = new CommunauteAgglomeration();
 		Pattern pattern_ville = Pattern.compile("ville\\((\\w*)\\).");
-		Pattern pattern_route = Pattern.compile("route\\((\\w*)\\).");
+		Pattern pattern_route = Pattern.compile("route\\((\\w*),(\\w*)\\).");
 		Pattern pattern_recharge = Pattern.compile("recharge\\((\\w*)\\).");
 
 		String line = null;
@@ -156,12 +176,27 @@ public class CommunauteAgglomeration {
 			Matcher matcher_route = pattern_route.matcher(line);
 			Matcher matcher_recharge = pattern_recharge.matcher(line);
 			if (matcher_ville.matches()){
-				c.ajoutVille(new Ville());
+				c.ajoutVille(new Ville(matcher_ville.group(1)));
 			}
-
-			if (!(matcher_ville.matches() || matcher_route.matches() || matcher_recharge.matches())){
+			else if (matcher_route.matches()){
+				try{
+					c.ajoutRoute(c.getVilleFromName(matcher_route.group(1)),c.getVilleFromName(matcher_route.group(2)));
+				} catch(VilleInexistanteException e){
+					throw new SyntaxErrorException(e.getMessage(),lineNb,line);
+				}
+			}
+			else if (matcher_recharge.matches()){
+				try {
+					Ville ville = c.getVilleFromName(matcher_recharge.group(1));
+					ville.setBorne(true);
+				} catch(VilleInexistanteException e){
+					throw new SyntaxErrorException(e.getMessage(),lineNb,line);
+				}
+			}
+			else {
 				throw new SyntaxErrorException("Ligne non reconnue dans le fichier",lineNb,line);
 			}
-
+		}
+		return c;
 	}
 }
