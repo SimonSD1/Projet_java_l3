@@ -147,6 +147,11 @@ public class CommunauteAgglomeration {
 		return true;
 	}
 	
+	/**
+	 * permet de si une ville verifie la contrainte d'accessibilité
+	 * @param Ville la ville dont on veut verifier le respect de la contrainte
+	 * @return un boolean vrai si elle respecte
+	 **/
 	public boolean verifieContrainteAccessibilite(Ville v) {
 		if (v.getBorne()){
 			return true;
@@ -159,6 +164,11 @@ public class CommunauteAgglomeration {
 		return false;
 	}
 	
+	/**
+	 * permet de trouver les voisins qui ne respecte pas la contrainte si on enleve la ville 
+	 * @param Ville la ville dont on veut trouver les voisins non valides
+	 * @return un string contenant les nom des villes non valide
+	 **/
 	public String trouveVoisinNonValide (Ville v) {
 		StringBuilder sb = new StringBuilder();
 		v.setBorne(false);
@@ -185,7 +195,9 @@ public class CommunauteAgglomeration {
 		return villes;
 	}
 	
-	
+	/**
+	 * permet d'afficher la liste des villes, leurs voisin et si elle a une borne
+	 **/
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Etat de la communaute d'agglomeration : \n");

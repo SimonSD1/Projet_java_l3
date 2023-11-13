@@ -7,6 +7,10 @@ public class InterfaceTextuelle {
 
 	public static final String ALPHABET ="abcdefghijklmnopqrstuvwxyz";
 	
+	
+	/**
+	 * Gere les differentes étapes de l'interface textuelle
+	 **/
 	public static void debuteInterface() {
 	
 		Scanner scan = new Scanner(System.in);
@@ -31,13 +35,22 @@ public class InterfaceTextuelle {
 		
 	}
 	
-	
+	/**
+	 * ajoute le nombre de ville demandé en les nommants d'apres l'alphabet
+		 * @param CommunauteAgglomeration la communaute
+		 * @param int nombre de ville a ajouter
+	 **/
 	public static void ajouteVillesAlphabet(CommunauteAgglomeration commu, int nbVilles) {
 		for(int i=0; i< nbVilles; i++) {
 			commu.ajoutVille(new Ville(( Character.toString(ALPHABET.charAt(i)) )));
 		}
 	}
 	
+	/**
+	 * boucle de l'interface textuelle permettant de resoudre le probleme
+		 * @param CommunauteAgglomeration la communaute
+		 * @param int nombre de ville a ajouter
+	 **/
 	public static void boucleResolutionProbleme(CommunauteAgglomeration commu , Scanner scan){
 		int choix=0;
 		
@@ -125,6 +138,11 @@ public class InterfaceTextuelle {
 		}while(choix!=3);
 	}
 	
+	/**
+	 * boucle de l'interface textuelle permettant de creer les routes entres  les villes
+		 * @param CommunauteAgglomeration la communaute
+		 * @param int nombre de ville a ajouter
+	 **/
 	public static void boucleCreationRoute(Scanner scan, CommunauteAgglomeration commu) {
 		int choix=0;
 		do {
