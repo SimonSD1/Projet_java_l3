@@ -13,7 +13,6 @@ public class Ville {
 	/**
 	 * Constructeur de Ville avec la solution naive
 	 *
-		 * @param n numéro de la ville
 		 * @param nom_ville nom de la ville
 	 **/
 	public Ville( String nom_ville) {
@@ -29,8 +28,15 @@ public class Ville {
 	/**
 	 * @return True si la ville possède une borne
 	 **/
-	public boolean possedeBorne() {
+	public boolean getBorne() {
 		return this.borne;
+	}
+	/**
+	 * ajoute ou enlève une borne à la ville
+	 * @param boolean true pour donner une borne à la ville, false pour enlever la borne à la ville
+	 **/
+	public void setBorne(boolean borne) {
+		this.borne = borne;
 	}
 	
 	public int nombreVille(int e) {
