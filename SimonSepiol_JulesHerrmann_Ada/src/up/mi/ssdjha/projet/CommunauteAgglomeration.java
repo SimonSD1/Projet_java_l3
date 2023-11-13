@@ -117,7 +117,7 @@ public class CommunauteAgglomeration {
 	 * Vérifie la contrainte d'accessibilité des bornes
 	 *	*@return List<Ville> La liste de ville ne vérifiant pas la contrainte d'accessibilité
 	 **/
-	public void verifieContrainteAccessibilite() {
+	public void aggloVerifieContrainteAccessibilite() {
 		Vector<Ville> villeNonValide = new Vector<Ville>();
 
 		for(Ville ville : this.g.keySet()){
@@ -132,6 +132,31 @@ public class CommunauteAgglomeration {
 			villeNonValide.add(ville);
 		}
 	}
+	
+	public boolean verifieContrainteAccessibilite(Ville v) {
+		for (Ville voisin : this.g.get(v)){
+			if (voisin.getBorne()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public String trouveVoisinNonValide (Ville v) {
+		StringBuilder sb = new StringBuilder();
+		v.setBorne(false);
+		for (Ville voisin : this.g.get(v)){
+			boolean respecte=false;
+			
+			if(!verifieContrainteAccessibilite(voisin)) {
+				sb.append(voisin.getNom());
+			}
+		}
+		v.setBorne(true);
+		return sb.toString();
+		
+	}
+	
 	/**
 	 * @return Vector<Ville> la liste de toutes les villes de l'agglomération
 	 **/
@@ -150,6 +175,8 @@ public class CommunauteAgglomeration {
 		for(Ville key : g.keySet()) {
 			sb.append("\n");
 			sb.append(key.getNom());
+			sb.append(" a une borne ? : ");
+			sb.append(key.getBorne());
 			sb.append(" relie a : ");
 			for(Ville v : g.get(key)) {
 				sb.append(v.getNom());
