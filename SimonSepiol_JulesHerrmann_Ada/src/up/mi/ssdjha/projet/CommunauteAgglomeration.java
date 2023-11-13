@@ -100,4 +100,23 @@ public class CommunauteAgglomeration {
 			voisinsVille2.add(ville1);
 		}
 	}
+	/**
+	 * Vérifie la contrainte d'accessibilité des bornes
+	 *	*@return List<Ville> La liste de ville ne vérifiant pas la contrainte d'accessibilité
+	 **/
+	public void verifieContrainteAccessibilite() {
+		Vector<Ville> villeNonValide = new Vector<Ville>();
+
+		for(Ville ville : this.g.keySet()){
+			if (ville.possedeBorne()){
+				continue;
+			}
+			for (Ville voisin : this.g.get(ville)){
+				if (voisin.possedeBorne()){
+					continue;
+				}
+			}
+			villeNonValide.add(ville);
+		}
+	}	
 }
