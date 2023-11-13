@@ -100,4 +100,8 @@ public class CommunauteAgglomeration {
 			voisinsVille2.add(ville1);
 		}
 	}
+	
+	public Vector<Ville> getVilles(){
+		return g.keySet();
+	}
 }

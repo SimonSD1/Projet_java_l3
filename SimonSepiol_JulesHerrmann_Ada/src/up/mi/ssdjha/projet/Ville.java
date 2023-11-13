@@ -6,7 +6,6 @@ package up.mi.ssdjha.projet;
  **/
 public class Ville {
 
-  	private int n; // Nombre de villes (26 max)
 	private String nom_ville;
 	boolean borne;
 
@@ -17,8 +16,7 @@ public class Ville {
 		 * @param n numéro de la ville
 		 * @param nom_ville nom de la ville
 	 **/
-	public Ville(int n, String nom_ville) {
-		this.n = n;
+	public Ville( String nom_ville) {
 		this.nom_ville = nom_ville;
 		this.borne = false;
 	}
