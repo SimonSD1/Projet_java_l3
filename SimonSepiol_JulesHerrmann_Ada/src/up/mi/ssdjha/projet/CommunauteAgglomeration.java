@@ -5,6 +5,7 @@ import java.util.Vector;
 import java.util.Collection;
 
 import java.lang.IllegalArgumentException;
+import java.io.FileNotFoundException;
 
 /**
  * Un graphe représentant des villes reliés par des routes
@@ -100,8 +101,41 @@ public class CommunauteAgglomeration {
 			voisinsVille2.add(ville1);
 		}
 	}
-	
-	public Vector<Ville> getVilles(){
-		return g.keySet();
+	/**
+	 * Vérifie la contrainte d'accessibilité des bornes
+	 *	*@return List<Ville> La liste de ville ne vérifiant pas la contrainte d'accessibilité
+	 **/
+	public void verifieContrainteAccessibilite() {
+		Vector<Ville> villeNonValide = new Vector<Ville>();
+
+		for(Ville ville : this.g.keySet()){
+			if (ville.possedeBorne()){
+				continue;
+			}
+			for (Ville voisin : this.g.get(ville)){
+				if (voisin.possedeBorne()){
+					continue;
+				}
+			}
+			villeNonValide.add(ville);
+		}
 	}
+	/**
+	 * @return Vector<Ville> la liste de toutes les villes de l'agglomération
+	 **/
+	public Vector<Ville> getVilles() {
+		Vector<Ville> villes = new Vector<Ville>();
+		for (Ville ville : this.g.keySet()){
+			villes.add(ville);
+		}
+		return villes;
+	}
+		
+	/**
+	 * Short Description
+	 *
+	 * @throws 
+	 **/
+	//public static CommunauteAgglomeration createFromFile(String file_name)throws FileNotFoundException, SyntaxErrorException{
+	//}
 }
