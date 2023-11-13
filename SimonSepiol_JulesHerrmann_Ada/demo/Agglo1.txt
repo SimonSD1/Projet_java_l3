@@ -13,6 +13,8 @@ route(Lannédern,Iffendic).
 route(Drouges,Kergloff).
 #route(MaVille,Kergloff).
 route(Kergloff,Lannédern).
+route(Abbaretz,Iffendic).
 recharge(Kergloff).
 recharge(Carnoët).
+recharge(Abbaretz).
 #recharge(MaVille).

@@ -114,11 +114,24 @@ public class CommunauteAgglomeration {
 		}
 	}
 	/**
-	 * Vérifie la contrainte d'accessibilité des bornes
-	 *	*@return List<Ville> La liste de ville ne vérifiant pas la contrainte d'accessibilité
+	 * Vérifie la contrainte d'accessibilité de l'agglomération
+	 *	*@return La liste de ville ne vérifiant pas la contrainte d'accessibilité
 	 **/
-	public void aggloVerifieContrainteAccessibilite() {
+	public Vector<Ville> getListeVilleRespectePasContrainteAccessibilite() {
 		Vector<Ville> villeNonValide = new Vector<Ville>();
+
+		for(Ville ville : this.g.keySet()){
+			if(!verifieContrainteAccessibilite(ville)){
+				villeNonValide.add(ville);
+			}
+		}
+		return villeNonValide;
+	}
+	/**
+	 * Vérifie la contrainte d'accessibilité de l'agglomération
+	 *	*@return true si la ville respecte la contrainte, false sinon
+	 **/
+	public boolean getRepecteContrainteAccessibilite() {
 
 		for(Ville ville : this.g.keySet()){
 			if (ville.getBorne()){
@@ -129,11 +142,15 @@ public class CommunauteAgglomeration {
 					continue;
 				}
 			}
-			villeNonValide.add(ville);
+			return false;
 		}
+		return true;
 	}
 	
 	public boolean verifieContrainteAccessibilite(Ville v) {
+		if (v.getBorne()){
+			return true;
+		}
 		for (Ville voisin : this.g.get(v)){
 			if (voisin.getBorne()){
 				return true;
