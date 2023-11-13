@@ -17,4 +17,7 @@ ville:
 commu:
 	javac -cp bin/ ${pkg_pth}CommunauteAgglomeration.java -d bin/
 
-all: ville villeInexistanteException routeInexistanteException commu
+main:
+	javac -cp bin/ ${pkg_pth}Main.java -d bin/
+
+all: ville villeInexistanteException routeInexistanteException SyntaxErrorException commu main

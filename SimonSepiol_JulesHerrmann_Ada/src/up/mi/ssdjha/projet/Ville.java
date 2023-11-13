@@ -9,7 +9,6 @@ public class Ville {
 	private String nom_ville;
 	private boolean borne;
 
-	//J'ai mis les attibuts en public pour l'instant au cas où on fait de l'héritage
 	/**
 	 * Constructeur de Ville avec la solution naive
 	 *
@@ -18,6 +17,16 @@ public class Ville {
 	public Ville( String nom_ville) {
 		this.nom_ville = nom_ville;
 		this.borne = true;
+	}
+	/**
+	 * Constructeur de Ville avec la solution naive
+	 *
+		 * @param nom_ville nom de la ville
+		 * @param borne true si la ville possède une borne false sinon
+	 **/
+	public Ville( String nom_ville, boolean borne) {
+		this.nom_ville = nom_ville;
+		this.borne = borne;
 	}
 	/**
 	 * @return le nom de la ville

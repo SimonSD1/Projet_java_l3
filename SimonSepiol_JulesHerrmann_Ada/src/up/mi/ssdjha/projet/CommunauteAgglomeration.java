@@ -28,6 +28,7 @@ public class CommunauteAgglomeration {
 	 **/
 	public CommunauteAgglomeration() {
 		this.g = new HashMap<Ville,Vector<Ville>>();
+		this.nameToVille = new HashMap<String,Ville>();
 	}
 	/**
 	 * Constructeur de CommunauteAgglomeration
@@ -156,6 +157,7 @@ public class CommunauteAgglomeration {
 		}
 		
 		return sb.toString();
+	}
 		
 	/**
 	 * Short Description
@@ -180,9 +182,9 @@ public class CommunauteAgglomeration {
 			throws FileNotFoundException, SyntaxErrorException, IOException{
 		BufferedReader br = new BufferedReader(new FileReader(file_name));
 		CommunauteAgglomeration c = new CommunauteAgglomeration();
-		Pattern pattern_ville = Pattern.compile("ville\\((\\w*)\\).");
-		Pattern pattern_route = Pattern.compile("route\\((\\w*),(\\w*)\\).");
-		Pattern pattern_recharge = Pattern.compile("recharge\\((\\w*)\\).");
+		Pattern pattern_ville = Pattern.compile("ville\\(([^()\\s]*)\\).");
+		Pattern pattern_route = Pattern.compile("route\\(([^()\\s]*),([^()\\s]*)\\).");
+		Pattern pattern_recharge = Pattern.compile("recharge\\(([^()\\s]*)\\).");
 
 		String line = null;
 		int lineNb = 0;
@@ -191,8 +193,11 @@ public class CommunauteAgglomeration {
 			Matcher matcher_ville = pattern_ville.matcher(line);
 			Matcher matcher_route = pattern_route.matcher(line);
 			Matcher matcher_recharge = pattern_recharge.matcher(line);
+			if (line.startsWith("#")){
+				continue;
+			}
 			if (matcher_ville.matches()){
-				c.ajoutVille(new Ville(matcher_ville.group(1)));
+				c.ajoutVille(new Ville(matcher_ville.group(1),false));
 			}
 			else if (matcher_route.matches()){
 				try{
