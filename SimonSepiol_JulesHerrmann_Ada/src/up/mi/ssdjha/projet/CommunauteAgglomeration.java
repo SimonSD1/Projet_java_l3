@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.Collection;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import java.lang.IllegalArgumentException;
 import java.io.FileNotFoundException;
 
@@ -136,6 +141,27 @@ public class CommunauteAgglomeration {
 	 *
 	 * @throws 
 	 **/
-	//public static CommunauteAgglomeration createFromFile(String file_name)throws FileNotFoundException, SyntaxErrorException{
-	//}
+	public static CommunauteAgglomeration createFromFile(String file_name)throws FileNotFoundException, SyntaxErrorException{
+		BufferedReader br = new BufferedReader(new FileReader(file_name));
+		CommunauteAgglomeration c = new CommunauteAgglomeration();
+		Pattern pattern_ville = Pattern.compile("ville\\((\\w*)\\).");
+		Pattern pattern_route = Pattern.compile("route\\((\\w*)\\).");
+		Pattern pattern_recharge = Pattern.compile("recharge\\((\\w*)\\).");
+
+		String line = null;
+		int lineNb = 0;
+		while((line = br.readLine())!=null){
+			lineNb++;
+			Matcher matcher_ville = pattern_ville.matcher(line);
+			Matcher matcher_route = pattern_route.matcher(line);
+			Matcher matcher_recharge = pattern_recharge.matcher(line);
+			if (matcher_ville.matches()){
+				c.ajoutVille(new Ville());
+			}
+
+			if (!(matcher_ville.matches() || matcher_route.matches() || matcher_recharge.matches())){
+				throw new SyntaxErrorException("Ligne non reconnue dans le fichier",lineNb,line);
+			}
+
+	}
 }
