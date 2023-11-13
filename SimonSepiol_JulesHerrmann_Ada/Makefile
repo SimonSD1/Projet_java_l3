@@ -5,6 +5,9 @@ bin="bin/"
 villeInexistanteException:
 	javac -cp bin/ ${pkg_pth}VilleInexistanteException.java -d bin/
 
+SyntaxErrorException:
+	javac -cp bin/ ${pkg_pth}SyntaxErrorException.java -d bin/
+	
 routeInexistanteException:
 	javac -cp bin/ ${pkg_pth}RouteInexistanteException.java -d bin/
 
