@@ -23,7 +23,10 @@ public class InterfaceTextuelle {
 			}
 			System.out.println("Combien de villes y a-t-il ?");
 			nbVilles = scan.nextInt();
-		}while(nbVilles<1);
+			if(nbVilles>=26){
+				System.out.println("Le nombre de ville max. est 26, réessayez !");
+			}
+		}while(nbVilles<1 || nbVilles>26);
 		
 		
 		CommunauteAgglomeration commu = new CommunauteAgglomeration();

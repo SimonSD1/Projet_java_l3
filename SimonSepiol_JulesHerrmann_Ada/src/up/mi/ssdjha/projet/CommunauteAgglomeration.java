@@ -158,7 +158,9 @@ public class CommunauteAgglomeration {
 		}
 		return false;
 	}
-	
+	/**
+	 * @return true si on peut enlever sa borne à la ville sans violer la contrainte d'accessibilité, false sinon
+	 **/
 	public boolean peutEtreEnleve(Ville v) {
 		for (Ville voisin : this.g.get(v)){
 			if (voisin.getBorne()){
