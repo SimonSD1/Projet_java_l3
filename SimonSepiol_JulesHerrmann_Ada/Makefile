@@ -24,3 +24,7 @@ main:
 	javac -cp bin/ ${pkg_pth}Main.java -d bin/
 
 all: ville villeInexistanteException routeInexistanteException SyntaxErrorException commu inter main
+
+pack :
+	mkdir -p release/
+	jar cvf release/$$(date +release_%d_%m.jar) $(filter-out release , $(wildcard *))
