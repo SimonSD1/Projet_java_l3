@@ -134,15 +134,9 @@ public class CommunauteAgglomeration {
 	public boolean getRepecteContrainteAccessibilite() {
 
 		for(Ville ville : this.g.keySet()){
-			if (ville.getBorne()){
-				continue;
+			if(!verifieContrainteAccessibilite(ville)){
+				return false;
 			}
-			for (Ville voisin : this.g.get(ville)){
-				if (voisin.getBorne()){
-					continue;
-				}
-			}
-			return false;
 		}
 		return true;
 	}

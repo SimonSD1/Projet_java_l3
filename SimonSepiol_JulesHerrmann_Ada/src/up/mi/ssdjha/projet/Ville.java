@@ -47,29 +47,4 @@ public class Ville {
 	public void setBorne(boolean borne) {
 		this.borne = borne;
 	}
-	
-	public int nombreVille(int e) {
-		System.out.printf("Entrez le nombre de ville(s) que vous voulez");
-		ajoutVille(e);
-		return e;
-	}
-	
-	public boolean ajoutVille(int m) {
-		
-		if(m>0 && m<26) {
-			System.out.printf("Vous pouvez ajouter cette ville");
-			return true;
-		}
-		
-		else {
-			do {
-				System.out.printf("Entrer le nombre de ville(s) que vous voulez créer (max 26)");
-			}while(m<26);
-			
-			return false;
-			
-		}
-	}
-	
-	
 }
