@@ -1,5 +1,6 @@
 package up.mi.ssdjha.projet;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -120,11 +121,11 @@ public class InterfaceTextuelle {
 				if(v.getBorne()==false) {
 					System.out.println("cette ville n'as pas de borne");
 				}
-				else if(commu.verifieContrainteAccessibilite(v)) {
+				else if(commu.peutEtreEnleve(v)) {
 					v.setBorne(false);
 				}
 				else {
-					System.out.println("impossible car "+commu.trouveVoisinNonValide(v) +" ne respecteront pas la contrainte");
+					System.out.println("impossible a cause de "+commu.trouveVoisinNonValide(v));
 				}
 				break;
 				

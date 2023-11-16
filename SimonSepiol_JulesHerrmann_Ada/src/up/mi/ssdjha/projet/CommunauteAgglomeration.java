@@ -153,9 +153,10 @@ public class CommunauteAgglomeration {
 	 * @return un boolean vrai si elle respecte
 	 **/
 	public boolean verifieContrainteAccessibilite(Ville v) {
-		if (v.getBorne()){
+		if(v.getBorne()) {
 			return true;
 		}
+		
 		for (Ville voisin : this.g.get(v)){
 			if (voisin.getBorne()){
 				return true;
@@ -164,12 +165,27 @@ public class CommunauteAgglomeration {
 		return false;
 	}
 	
+	public boolean peutEtreEnleve(Ville v) {
+		for (Ville voisin : this.g.get(v)){
+			if (voisin.getBorne()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	
 	/**
 	 * permet de trouver les voisins qui ne respecte pas la contrainte si on enleve la ville 
 	 * @param Ville la ville dont on veut trouver les voisins non valides
 	 * @return un string contenant les nom des villes non valide
 	 **/
 	public String trouveVoisinNonValide (Ville v) {
+		if(g.get(v).size()==0) {
+			return v.getNom();
+		}
+		
 		StringBuilder sb = new StringBuilder();
 		v.setBorne(false);
 		for (Ville voisin : this.g.get(v)){
@@ -181,7 +197,6 @@ public class CommunauteAgglomeration {
 		}
 		v.setBorne(true);
 		return sb.toString();
-		
 	}
 	
 	/**
