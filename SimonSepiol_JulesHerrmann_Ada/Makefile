@@ -20,6 +20,9 @@ ville:
 commu:
 	javac -cp bin/ ${pkg_pth}CommunauteAgglomeration.java -d bin/
 
+algo:
+	javac -cp bin/ ${pkg_pth}Algorithme.java -d bin/
+
 inter:
 	javac -cp bin/ ${pkg_pth}InterfaceTextuelle.java -d bin/
 	

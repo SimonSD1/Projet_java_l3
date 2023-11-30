@@ -9,14 +9,16 @@ import java.util.Vector;
 public class InterfaceTextuelle {
 
 	public static final String ALPHABET ="abcdefghijklmnopqrstuvwxyz";
+	private static CommunauteAgglomeration commu;
+	private static Scanner scan;
 	
 	
 	/**
 	 * Gere les differentes étapes de l'interface textuelle
 	 **/
 	public static void debuteInterface() {
-		Scanner scan = new Scanner(System.in);
-		CommunauteAgglomeration commu = new CommunauteAgglomeration();
+		scan = new Scanner(System.in);
+		commu = new CommunauteAgglomeration();
 		int choix =0;
 		do {
 			System.out.println("Que voulez vous faire ?");
@@ -43,9 +45,9 @@ public class InterfaceTextuelle {
 			
 			
 			
-			ajouteVillesAlphabet(commu,nbVilles);
+			ajouteVillesAlphabet(nbVilles);
 			
-			boucleCreationRoute(scan, commu);
+			boucleCreationRoute();
 			break;
 			
 		case 2:
@@ -66,7 +68,7 @@ public class InterfaceTextuelle {
 		
 		
 		
-		boucleResolutionProbleme(commu, scan);
+		boucleResolutionProbleme();
 		
 	}
 	
@@ -75,7 +77,7 @@ public class InterfaceTextuelle {
 		 * @param CommunauteAgglomeration la communaute
 		 * @param int nombre de ville a ajouter
 	 **/
-	public static void ajouteVillesAlphabet(CommunauteAgglomeration commu, int nbVilles) {
+	public static void ajouteVillesAlphabet(int nbVilles) {
 		for(int i=0; i< nbVilles; i++) {
 			commu.ajoutVille(new Ville(( Character.toString(ALPHABET.charAt(i)) )));
 		}
@@ -86,7 +88,7 @@ public class InterfaceTextuelle {
 		 * @param CommunauteAgglomeration la communaute
 		 * @param int nombre de ville a ajouter
 	 **/
-	public static void boucleResolutionProbleme(CommunauteAgglomeration commu , Scanner scan){
+	public static void boucleResolutionProbleme(){
 		int choix=0;
 		
 		do {
@@ -105,11 +107,12 @@ public class InterfaceTextuelle {
 				System.out.println("2 : retirer zone de recharge");
 				System.out.println("3 : resoudre par algorithme naif");
 				System.out.println("4 : resoudre par algorithme moins naif");
+				System.out.println("5 : enregistrer mon travail");
 
-				System.out.println("5 : fin");
+				System.out.println("6 : fin");
 				choix=scan.nextInt();
 
-			}while(choix!=1 && choix!=2 && choix !=3 && choix!=4 && choix!=5);
+			}while(choix<1 || choix >6);
 			
 			int numeroVille=0;
 			Ville v;
@@ -169,8 +172,11 @@ public class InterfaceTextuelle {
 			case 4:
 				Algorithme.resoudMoinsNaif(commu, 5);
 				break;
-				
+
 			case 5:
+				saveCommunauteToFile();
+				
+			case 6:
 				System.out.println(commu);
 
 				scan.close();
@@ -186,7 +192,7 @@ public class InterfaceTextuelle {
 		 * @param CommunauteAgglomeration la communaute
 		 * @param int nombre de ville a ajouter
 	 **/
-	public static void boucleCreationRoute(Scanner scan, CommunauteAgglomeration commu) {
+	public static void boucleCreationRoute() {
 		int choix=0;
 		do {
 			
@@ -242,6 +248,21 @@ public class InterfaceTextuelle {
 				break;
 			}
 		}while (choix !=2);
+	}
+	/**
+	 * demande le nom d'un fichier à l'utilisateur et enregistre la commu dans ce fichier
+	 *
+	 **/
+	public static void saveCommunauteToFile() {
+		System.out.println("Nom du fichier où enregistrer la communauté d'agglomération : ");
+		String path = scan.nextLine();
+		try {
+			commu.saveToFile(path);
+		}
+		catch(IOException e){
+			System.out.println("Erreur d'enregistrement : ");
+			System.out.println(e.getMessage());
+		}
 	}
 }
 
