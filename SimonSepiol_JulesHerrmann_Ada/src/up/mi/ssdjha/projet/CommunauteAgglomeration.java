@@ -3,11 +3,15 @@ package up.mi.ssdjha.projet;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.Collection;
+import java.util.HashSet;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.lang.StringBuilder;
 
 import java.lang.IllegalArgumentException;
 import java.io.FileNotFoundException;
@@ -241,9 +245,9 @@ public class CommunauteAgglomeration {
 	}
 		
 	/**
-	 * Short Description
-	 *
-	 * @throws 
+	 * Charge une communauté d'agglomération d'un fichier
+	 * @param file_name addresse du fichier à charger
+	 * @throws SyntaxErrorException la syntaxe du fichier est invalide
 	 **/
 	public static CommunauteAgglomeration createFromFile(String file_name)
 			throws FileNotFoundException, SyntaxErrorException, IOException{
@@ -286,5 +290,49 @@ public class CommunauteAgglomeration {
 			}
 		}
 		return c;
+	}
+	/**
+	 * enregistre la communauté d'agglomération dans un fichier
+	 * @param file_name chemin du fichier de sortie
+	 * @throws IOException si il y a un problème pour écrire dans le fichier
+	 **/
+	public void saveToFile(String file_name) throws IOException{
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file_name));
+		HashSet<UnorderedPair<Ville>> routesNonRedondance = new HashSet<UnorderedPair<Ville>>();
+		HashSet<Ville> bornes = new HashSet<Ville>();
+		StringBuilder sb = new StringBuilder();
+
+		for(Ville ville : this.g.keySet()){
+			sb.setLength(0); // clear the string Builder;
+			sb.append("ville(");
+			sb.append(ville.getNom());
+			sb.append(").\n");
+
+			bw.write(sb.toString());
+
+			if (ville.getBorne()) {
+				bornes.add(ville);
+			}
+
+			for (Ville voisin : this.g.get(ville)){
+				routesNonRedondance.add(new UnorderedPair<Ville>(ville,voisin));
+			}
+		}
+		for (UnorderedPair<Ville> pairVilleRoute : routesNonRedondance){
+			sb.setLength(0);
+			sb.append("route(");
+			sb.append(pairVilleRoute.getFirst().getNom());
+			sb.append(",");
+			sb.append(pairVilleRoute.getSecond().getNom());
+			sb.append(").\n");
+			bw.write(sb.toString());
+		}
+		for (Ville villeAvecRecharge : bornes){
+			sb.setLength(0);
+			sb.append("recharge(");
+			sb.append(villeAvecRecharge.getNom());
+			sb.append(").\n");
+			bw.write(sb.toString());
+		}
 	}
 }
