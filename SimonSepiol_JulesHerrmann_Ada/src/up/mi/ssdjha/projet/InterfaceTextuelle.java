@@ -175,6 +175,7 @@ public class InterfaceTextuelle {
 
 			case 5:
 				saveCommunauteToFile();
+				break;
 				
 			case 6:
 				System.out.println(commu);
@@ -184,7 +185,7 @@ public class InterfaceTextuelle {
 			}
 			
 			
-		}while(choix!=5);
+		}while(choix!=6);
 	}
 	
 	/**
