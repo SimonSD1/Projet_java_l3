@@ -37,7 +37,7 @@ public class InterfaceTextuelle {
 				}
 				System.out.println("Combien de villes y a-t-il ?");
 				nbVilles = scan.nextInt();
-				if(nbVilles>=26){
+				if(nbVilles>26){
 					System.out.println("Le nombre de ville max. est 26, réessayez !");
 				}
 			}while(nbVilles<1 || nbVilles>26);
@@ -133,7 +133,7 @@ public class InterfaceTextuelle {
 				
 				v = commu.getVilles().get(numeroVille);
 				if(v.getBorne()) {
-					System.out.println("cette ville a deja une borne");
+					System.out.println("cette ville a déjà une borne");
 				}
 				else {
 					v.setBorne(true);
@@ -201,6 +201,7 @@ public class InterfaceTextuelle {
 				System.out.println("Que voulez vous faire ?");
 				System.out.println("1 : ajouter une route, 2 : fin");
 				choix = scan.nextInt();
+				System.out.println("Entrez le chiffre proposée à droite :");
 
 			}while(choix!=1 && choix!=2);
 			
