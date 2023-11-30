@@ -49,19 +49,7 @@ public class InterfaceTextuelle {
 			break;
 			
 		case 2:
-			
-			try {
-				commu=CommunauteAgglomeration.createFromFile("demo/Agglo1.txt");
-			} catch (FileNotFoundException e) {
-				System.out.println("fichier non trouve");
-				e.printStackTrace();
-			} catch (SyntaxErrorException e) {
-				System.out.println("erreur syntaxe");
-				e.printStackTrace();
-			} catch (IOException e) {
-				System.out.println("erreue IO");
-				e.printStackTrace();
-			}
+			creeCommunauteParFichier(commu, scan);
 		}
 		
 		
@@ -69,6 +57,9 @@ public class InterfaceTextuelle {
 		boucleResolutionProbleme(commu, scan);
 		
 	}
+	
+	
+	
 	
 	/**
 	 * ajoute le nombre de ville demandé en les nommants d'apres l'alphabet
