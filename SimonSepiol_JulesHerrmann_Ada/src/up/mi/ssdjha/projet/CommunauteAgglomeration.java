@@ -309,6 +309,8 @@ public class CommunauteAgglomeration {
 			sb.append(").\n");
 
 			bw.write(sb.toString());
+			System.out.println(sb.toString());
+			System.out.println(ville.getNom());
 
 			if (ville.getBorne()) {
 				bornes.add(ville);
@@ -334,5 +336,6 @@ public class CommunauteAgglomeration {
 			sb.append(").\n");
 			bw.write(sb.toString());
 		}
+		bw.close();
 	}
 }

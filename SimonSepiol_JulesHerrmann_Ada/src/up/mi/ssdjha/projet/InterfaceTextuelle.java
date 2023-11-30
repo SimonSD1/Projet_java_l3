@@ -252,6 +252,9 @@ public class InterfaceTextuelle {
 	 **/
 	public static void saveCommunauteToFile() {
 		System.out.println("Nom du fichier où enregistrer la communauté d'agglomération : ");
+		if (scan.hasNextLine()) {
+			scan.nextLine();
+		}
 		String path = scan.nextLine();
 		try {
 			commu.saveToFile(path);
