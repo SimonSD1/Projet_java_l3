@@ -11,6 +11,9 @@ SyntaxErrorException:
 routeInexistanteException:
 	javac -cp bin/ ${pkg_pth}RouteInexistanteException.java -d bin/
 
+unorderedPair :
+	javac -cp bin/ ${pkg_pth}UnorderedPair.java -d bin/
+
 ville:
 	javac -cp bin/ ${pkg_pth}Ville.java -d bin/
 
@@ -23,7 +26,7 @@ inter:
 main:
 	javac -cp bin/ ${pkg_pth}Main.java -d bin/
 
-all: ville villeInexistanteException routeInexistanteException SyntaxErrorException commu inter main
+all: ville villeInexistanteException routeInexistanteException SyntaxErrorException unorderedPair commu inter main
 
 pack :
 	mkdir -p release/
