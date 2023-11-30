@@ -1,5 +1,7 @@
 package up.mi.ssdjha.projet;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
@@ -13,27 +15,56 @@ public class InterfaceTextuelle {
 	 * Gere les differentes étapes de l'interface textuelle
 	 **/
 	public static void debuteInterface() {
-	
 		Scanner scan = new Scanner(System.in);
-		
-		int nbVilles=1;
-		do {
-			if(nbVilles<1) {
-				System.out.println("nombre de villes trop petit");
-			}
-			System.out.println("Combien de villes y a-t-il ?");
-			nbVilles = scan.nextInt();
-			if(nbVilles>=26){
-				System.out.println("Le nombre de ville max. est 26, réessayez !");
-			}
-		}while(nbVilles<1 || nbVilles>26);
-		
-		
 		CommunauteAgglomeration commu = new CommunauteAgglomeration();
+		int choix =0;
+		do {
+			System.out.println("Que voulez vous faire ?");
+			System.out.println("1 : ajouter villes a la main");
+			System.out.println("2 : lire un fichier");
+			choix=scan.nextInt();
+
+		}while(choix!=1 && choix!=2);
 		
-		ajouteVillesAlphabet(commu,nbVilles);
+		switch(choix) {
+		case 1 :
+			int nbVilles=1;
+			do {
+				if(nbVilles<1) {
+					System.out.println("nombre de villes trop petit");
+				}
+				System.out.println("Combien de villes y a-t-il ?");
+				nbVilles = scan.nextInt();
+				if(nbVilles>=26){
+					System.out.println("Le nombre de ville max. est 26, réessayez !");
+				}
+			}while(nbVilles<1 || nbVilles>26);
+			
+			
+			
+			
+			ajouteVillesAlphabet(commu,nbVilles);
+			
+			boucleCreationRoute(scan, commu);
+			break;
+			
+		case 2:
+			
+			try {
+				commu=CommunauteAgglomeration.createFromFile("demo/Agglo1.txt");
+			} catch (FileNotFoundException e) {
+				System.out.println("fichier non trouve");
+				e.printStackTrace();
+			} catch (SyntaxErrorException e) {
+				System.out.println("erreur syntaxe");
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("erreue IO");
+				e.printStackTrace();
+			}
+		}
 		
-		boucleCreationRoute(scan, commu);
+		
 		
 		boucleResolutionProbleme(commu, scan);
 		
@@ -72,10 +103,13 @@ public class InterfaceTextuelle {
 				System.out.println("Que voulez vous faire ?");
 				System.out.println("1 : ajouter zone de recharge");
 				System.out.println("2 : retirer zone de recharge");
-				System.out.println("3 : fin");
+				System.out.println("3 : resoudre par algorithme naif");
+				System.out.println("4 : resoudre par algorithme moins naif");
+
+				System.out.println("5 : fin");
 				choix=scan.nextInt();
 
-			}while(choix!=1 && choix!=2 && choix !=3);
+			}while(choix!=1 && choix!=2 && choix !=3 && choix!=4 && choix!=5);
 			
 			int numeroVille=0;
 			Ville v;
@@ -105,11 +139,6 @@ public class InterfaceTextuelle {
 				
 			case 2:
 				
-				
-				
-				
-				
-				
 				do {
 					if(numeroVille>indice || numeroVille<0) {
 						System.out.println("ville inexistante");
@@ -132,14 +161,24 @@ public class InterfaceTextuelle {
 				}
 				break;
 				
+				
 			case 3:
+				Algorithme.resoudNaif(commu, 5);
+				break;
+				
+			case 4:
+				Algorithme.resoudMoinsNaif(commu, 5);
+				break;
+				
+			case 5:
 				System.out.println(commu);
 
 				scan.close();
+				break;
 			}
 			
 			
-		}while(choix!=3);
+		}while(choix!=5);
 	}
 	
 	/**
