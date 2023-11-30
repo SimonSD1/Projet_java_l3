@@ -31,7 +31,7 @@ public class InterfaceTextuelle {
 		switch (choix) {
 		case 1:
 			recupereNombreVilles();
-			ajouteVillesAlphabet(nbVilles);
+			ajouteVillesAlphabet();
 			boucleCreationRoute();
 			break;
 
@@ -81,7 +81,7 @@ public class InterfaceTextuelle {
 	 * @param CommunauteAgglomeration la communaute
 	 * @param int                     nombre de ville a ajouter
 	 **/
-	public static void ajouteVillesAlphabet(int nbVilles) {
+	public static void ajouteVillesAlphabet() {
 		for (int i = 0; i < nbVilles; i++) {
 			commu.ajoutVille(new Ville((Character.toString(ALPHABET.charAt(i)))));
 		}
