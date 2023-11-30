@@ -171,26 +171,19 @@ public class InterfaceTextuelle {
 
 			case 5:
 				saveCommunauteToFile();
-<<<<<<< HEAD
-
-=======
 				break;
 				
->>>>>>> 5b05f7de0c4eedd5f314ae832e3b119f65d0253d
 			case 6:
 				System.out.println(commu);
 
 				scan.close();
 				break;
 			}
-<<<<<<< HEAD
 
-		} while (choix != 5);
-=======
+		
 			
 			
 		}while(choix!=6);
->>>>>>> 5b05f7de0c4eedd5f314ae832e3b119f65d0253d
 	}
 
 	/**
