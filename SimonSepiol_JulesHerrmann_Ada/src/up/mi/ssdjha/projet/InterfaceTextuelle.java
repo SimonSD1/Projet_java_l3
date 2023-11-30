@@ -195,6 +195,7 @@ public class InterfaceTextuelle {
 				System.out.println("Que voulez vous faire ?");
 				System.out.println("1 : ajouter une route, 2 : fin");
 				choix = scan.nextInt();
+				System.out.println("Entrez le chiffre proposée à droite :");
 
 			}while(choix!=1 && choix!=2);
 			
