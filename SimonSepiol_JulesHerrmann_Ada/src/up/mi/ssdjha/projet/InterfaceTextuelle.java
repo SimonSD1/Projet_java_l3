@@ -85,7 +85,7 @@ public class InterfaceTextuelle {
 	}
 
 	/**
-	 * boucle de l'interface textuelle permettant de resoudre le probleme 
+	 * boucle de l'interface textuelle permettant de resoudre le probleme
 	 **/
 	public static void boucleResolutionProbleme() {
 		int choix = 0;
@@ -163,7 +163,7 @@ public class InterfaceTextuelle {
 			case 4:
 				Algorithme.resoudMoinsNaif(commu, 5);
 				break;
-				
+
 			case 5:
 				Algorithme.welsh_powell(commu);
 				break;
@@ -171,7 +171,7 @@ public class InterfaceTextuelle {
 			case 6:
 				saveCommunauteToFile();
 				break;
-				
+
 			case 7:
 				System.out.println(commu);
 
@@ -179,10 +179,7 @@ public class InterfaceTextuelle {
 				break;
 			}
 
-		
-			
-			
-		}while(choix!=6);
+		} while (choix != 6);
 	}
 
 	/**

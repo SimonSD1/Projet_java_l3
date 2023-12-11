@@ -7,143 +7,164 @@ public class Algorithme {
 	 * resoud le probleme en utilisant l'algorithme naif proposé
 	 **/
 	public static void resoudNaif(CommunauteAgglomeration communaute, int k) {
-		for(int i=0; i<k; i++) {
-			int numeroVille = (int) (Math.random()*communaute.getVilles().size());
+		for (int i = 0; i < k; i++) {
+			int numeroVille = (int) (Math.random() * communaute.getVilles().size());
 			Ville v = communaute.getVilles().get(numeroVille);
-			if(v.getBorne() && communaute.peutEtreEnleve(v)) {
+			if (v.getBorne() && communaute.peutEtreEnleve(v)) {
 				v.setBorne(false);
-			}
-			else {
+			} else {
 				v.setBorne(true);
 			}
 		}
 	}
-	
+
 	/**
 	 * calcul le score en comptant le nombre de ville sans borne
+	 * 
 	 * @param une communaute d'agglomeration
 	 **/
 	private static int score(CommunauteAgglomeration communaute) {
-		int nbSansBorne=0;
-		for(Ville v : communaute.getVilles()) {
-			if(v.getBorne()) {
+		int nbSansBorne = 0;
+		for (Ville v : communaute.getVilles()) {
+			if (v.getBorne()) {
 				nbSansBorne++;
 			}
 		}
-		
+
 		return nbSansBorne;
 	}
-	
+
 	/**
 	 * resoud le probleme en utilisant l'algorithme moins naif proposé
+	 * 
+	 * @param une communaute d'agglomeration
+	 * @param un  entier
 	 **/
 	public static void resoudMoinsNaif(CommunauteAgglomeration communaute, int k) {
-		int i=0;
-		int scoreCourant=score(communaute);
-		while(i<k) {
-			
-			int numeroVille = (int) (Math.random()*communaute.getVilles().size());
+		int i = 0;
+		int scoreCourant = score(communaute);
+		while (i < k) {
+
+			int numeroVille = (int) (Math.random() * communaute.getVilles().size());
 			Ville v = communaute.getVilles().get(numeroVille);
-			if(v.getBorne() && communaute.peutEtreEnleve(v)) {
+			if (v.getBorne() && communaute.peutEtreEnleve(v)) {
 				v.setBorne(false);
-			}
-			else {
+			} else {
 				v.setBorne(true);
 			}
-			
-			if(score(communaute)<scoreCourant) {
-				i=0;
-				scoreCourant=score(communaute);
-			}
-			else {
+
+			if (score(communaute) < scoreCourant) {
+				i = 0;
+				scoreCourant = score(communaute);
+			} else {
 				i++;
 			}
 		}
 	}
-	
+
+	/**
+	 * tri les sommets par ordre de decroissant de degré
+	 * 
+	 * @param une communaute d'agglomeration
+	 **/
 	public static int[] tri_degre(CommunauteAgglomeration communaute) {
-        int[] degres = new int[communaute.getVilles().size() ];
-        
-        for (int i = 0; i <degres.length; i++) {
-            for (int j = 0; j < degres.length; j++) {
-            	Ville ville1 = communaute.getVilles().get(j);
-            	Ville ville2 = communaute.getVilles().get(i);
-                if (communaute.estVoisin(ville1, ville2)) {
-                    degres[i]++;
-                }
-            }
-        }
+		int[] degres = new int[communaute.getVilles().size()];
 
-        Integer[] indices = new Integer[degres.length];
-        for (int i = 0; i < degres.length; i++) {
-            indices[i] = i;
-        }
+		for (int i = 0; i < degres.length; i++) {
+			for (int j = 0; j < degres.length; j++) {
+				Ville ville1 = communaute.getVilles().get(j);
+				Ville ville2 = communaute.getVilles().get(i);
+				if (communaute.estVoisin(ville1, ville2)) {
+					degres[i]++;
+				}
+			}
+		}
 
-        Arrays.sort(indices, (a,b) -> Integer.compare(degres[b],degres[a]));
+		Integer[] indices = new Integer[degres.length];
+		for (int i = 0; i < degres.length; i++) {
+			indices[i] = i;
+		}
 
-        int[] trie = new int[degres.length];
-        for (int i = 0; i < degres.length; i++) {
-            trie[i] = indices[i];
-        }
+		Arrays.sort(indices, (a, b) -> Integer.compare(degres[b], degres[a]));
 
-        return trie;
+		int[] trie = new int[degres.length];
+		for (int i = 0; i < degres.length; i++) {
+			trie[i] = indices[i];
+		}
 
-    }
-	
-	
-	
+		return trie;
+
+	}
+
+	/**
+	 * calcul le score en comptant le nombre de ville sans borne
+	 * 
+	 * @param une communaute d'agglomeration
+	 * @param un  etiquetage des sommets
+	 * @param un  sommet
+	 **/
 	public static int min_couleur_possible(CommunauteAgglomeration communaute, int[] etiq, int s) {
-        boolean[] valeuresPossibles = new boolean[communaute.getVilles().size()];
-        Arrays.fill(valeuresPossibles, true);
+		boolean[] valeuresPossibles = new boolean[communaute.getVilles().size()];
+		Arrays.fill(valeuresPossibles, true);
 
-        for (int i = 0; i < valeuresPossibles.length; i++) {
-        	// si est voisin
-        	Ville ville1 = communaute.getVilles().get(s);
-        	Ville ville2 = communaute.getVilles().get(i);
-            if (etiq[i] != -1 && communaute.estVoisin(ville1, ville2) ) {
-                valeuresPossibles[etiq[i]] = false;
-            }
-        }
+		for (int i = 0; i < valeuresPossibles.length; i++) {
+			// si est voisin
+			Ville ville1 = communaute.getVilles().get(s);
+			Ville ville2 = communaute.getVilles().get(i);
+			if (etiq[i] != -1 && communaute.estVoisin(ville1, ville2)) {
+				valeuresPossibles[etiq[i]] = false;
+			}
+		}
 
-        for (int i = 0; i < valeuresPossibles.length; i++) {
-            if (valeuresPossibles[i] == true) {
-                return i;
-            }
-        }
-        return valeuresPossibles.length;
-    }
-	
+		for (int i = 0; i < valeuresPossibles.length; i++) {
+			if (valeuresPossibles[i] == true) {
+				return i;
+			}
+		}
+		return valeuresPossibles.length;
+	}
+
+	/**
+	 * algorithme glouton qui colore le grahe dans l'ordre donné
+	 * 
+	 * @param une communaute d'agglomeration
+	 * @param un  ordre sur les sommets
+	 **/
 	public static int[] glouton(CommunauteAgglomeration communaute, int[] ordre) {
-        int[] coloriage = new int[communaute.getVilles().size() ];
-        Arrays.fill(coloriage, -1);
+		int[] coloriage = new int[communaute.getVilles().size()];
+		Arrays.fill(coloriage, -1);
 
-        for (int i = 0; i < ordre.length; i++) {
-            int sommetAColorier = ordre[i];
-            coloriage[sommetAColorier] = min_couleur_possible(communaute, coloriage, sommetAColorier);
-        }
-        return coloriage;
-    }
-	
+		for (int i = 0; i < ordre.length; i++) {
+			int sommetAColorier = ordre[i];
+			coloriage[sommetAColorier] = min_couleur_possible(communaute, coloriage, sommetAColorier);
+		}
+		return coloriage;
+	}
+
+	/**
+	 * creer une coloration du graphe, toute les villes avec la 1er couleur se
+	 * voient attrubué une borne et les autres non
+	 * 
+	 * @param une communaute d'agglomeration
+	 **/
 	public static void welsh_powell(CommunauteAgglomeration communaute) {
-        int[] ordre = tri_degre(communaute);
+		int[] ordre = tri_degre(communaute);
 
-        int[] coloriage = glouton(communaute, ordre);
-        
-        for(int i=0; i<coloriage.length; i++) {
-        	System.out.println(coloriage[i]);
-        }
-        
-        int indice=0;
-        for(Ville v : communaute.getVilles()) {
-        	if(coloriage[indice]==1) {
-        		v.setBorne(false);
-        	}
-        	else {
-        		v.setBorne(true);
-        	}
-        	indice++;
-        }
-        
-        
-    }
+		int[] coloriage = glouton(communaute, ordre);
+
+		for (int i = 0; i < coloriage.length; i++) {
+			System.out.println(coloriage[i]);
+		}
+
+		int indice = 0;
+		for (Ville v : communaute.getVilles()) {
+			if (coloriage[indice] == 1) {
+				v.setBorne(false);
+			} else {
+				v.setBorne(true);
+			}
+			indice++;
+		}
+
+	}
 }
