@@ -36,7 +36,7 @@ public class CommunauteAgglomeration {
 	}
 	/**
 	 * Constructeur de CommunauteAgglomeration
-		 * @param Collection<Ville> les villes de l'agglomération
+		 * @param villes_col les villes de l'agglomération
 	 **/
 	public CommunauteAgglomeration(Collection<Ville> villes_col) {
 		this.g = new HashMap<Ville,Vector<Ville>>();
@@ -48,7 +48,7 @@ public class CommunauteAgglomeration {
 	/**
 	 * Ajoute une nouvelle ville sans route
 	 * Ne fait rien si la ville existe déjà
-		 * @param Ville la ville à ajouter
+		 * @param ville la ville à ajouter
 	 **/
 	public void ajoutVille(Ville ville) {
 		this.g.putIfAbsent(ville,new Vector<Ville>());
@@ -56,8 +56,8 @@ public class CommunauteAgglomeration {
 	}
 	/**
 	 * Ajoute une nouvelle route entre deux villes
-		 * @param Ville 1ere ville
-		 * @param VIlle 1nde ville 
+		 * @param ville1 1ere ville
+		 * @param ville2 1nde ville 
 		 * @throws VilleInexistanteException une des villes n'existe de pas dans l'agglomération
 	 **/
 	public void ajoutRoute(Ville ville1, Ville ville2) throws VilleInexistanteException{
@@ -79,8 +79,8 @@ public class CommunauteAgglomeration {
 	/**
 	 * Ajoute une nouvelle route entre deux villes
 	 * Crée de nouvelles villes si elles n'existent pas déjà
-		 * @param Ville 1ere ville
-		 * @param VIlle 1nde ville 
+		 * @param ville1 1ere ville
+		 * @param ville2 1nde ville 
 	 **/
 	public void ajoutRouteEtVilles(Ville ville1, Ville ville2) {
 		Vector<Ville> voisinsVille1 = this.g.getOrDefault(ville1,new Vector<Ville>());
@@ -178,7 +178,7 @@ public class CommunauteAgglomeration {
 	
 	/**
 	 * permet de trouver les voisins qui ne respecte pas la contrainte si on enleve la ville 
-	 * @param Ville la ville dont on veut trouver les voisins non valides
+	 * @param v la ville dont on veut trouver les voisins non valides
 	 * @return un string contenant les nom des villes non valide
 	 **/
 	public String trouveVoisinNonValide (Ville v) {
@@ -200,7 +200,7 @@ public class CommunauteAgglomeration {
 	}
 	
 	/**
-	 * @return Vector<Ville> la liste de toutes les villes de l'agglomération
+	 * @return villes la liste de toutes les villes de l'agglomération
 	 **/
 	public Vector<Ville> getVilles() {
 		Vector<Ville> villes = new Vector<Ville>();
@@ -208,6 +208,13 @@ public class CommunauteAgglomeration {
 			villes.add(ville);
 		}
 		return villes;
+	}
+	
+	public boolean estVoisin(Ville ville1, Ville ville2) {
+		if(g.get(ville1).contains(ville2)) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -232,9 +239,9 @@ public class CommunauteAgglomeration {
 		
 	/**
 	 * Short Description
-	 * @param String nom d'une ville
+	 * @param nomVille nom d'une ville
 	 * @throws VilleInexistanteException si aucune ville ne porte se nom
-	 * @return Ville la ville portant ce nom
+	 * @return la ville portant ce nom
 	 **/
 	public Ville getVilleFromName(String nomVille) throws VilleInexistanteException {
 		Ville ville = this.nameToVille.get(nomVille);

@@ -77,9 +77,6 @@ public class InterfaceTextuelle {
 
 	/**
 	 * ajoute le nombre de ville demandé en les nommants d'apres l'alphabet
-	 * 
-	 * @param CommunauteAgglomeration la communaute
-	 * @param int                     nombre de ville a ajouter
 	 **/
 	public static void ajouteVillesAlphabet() {
 		for (int i = 0; i < nbVilles; i++) {
@@ -88,10 +85,7 @@ public class InterfaceTextuelle {
 	}
 
 	/**
-	 * boucle de l'interface textuelle permettant de resoudre le probleme
-	 * 
-	 * @param CommunauteAgglomeration la communaute
-	 * @param int                     nombre de ville a ajouter
+	 * boucle de l'interface textuelle permettant de resoudre le probleme 
 	 **/
 	public static void boucleResolutionProbleme() {
 		int choix = 0;
@@ -111,12 +105,13 @@ public class InterfaceTextuelle {
 				System.out.println("2 : retirer zone de recharge");
 				System.out.println("3 : resoudre par algorithme naif");
 				System.out.println("4 : resoudre par algorithme moins naif");
-				System.out.println("5 : enregistrer mon travail");
+				System.out.println("5 : resoudre welsh et powell");
+				System.out.println("6 : enregistrer mon travail");
 
-				System.out.println("6 : fin");
+				System.out.println("7 : fin");
 				choix = scan.nextInt();
 
-			} while (choix < 1 || choix > 6);
+			} while (choix < 1 || choix > 7);
 
 			int numeroVille = 0;
 			Ville v;
@@ -168,12 +163,16 @@ public class InterfaceTextuelle {
 			case 4:
 				Algorithme.resoudMoinsNaif(commu, 5);
 				break;
-
+				
 			case 5:
+				Algorithme.welsh_powell(commu);
+				break;
+
+			case 6:
 				saveCommunauteToFile();
 				break;
 				
-			case 6:
+			case 7:
 				System.out.println(commu);
 
 				scan.close();
