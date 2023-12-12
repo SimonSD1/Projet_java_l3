@@ -146,7 +146,7 @@ public class InterfaceTextuelle {
 				}),
 				new Action("Exporter .dot file de la communauté d'aggomérations",
 					()->{
-						System.out.println("Oh no ! Cette fonctionnalité n'a pas encore été implémentée !");
+						saveCommunauteToDotFile();
 				}),
 				new Action("Terminer le programme",
 					()->{
@@ -284,6 +284,25 @@ public class InterfaceTextuelle {
 		String path = scan.nextLine();
 		try {
 			commu.saveToFile(path);
+		} catch (IOException e) {
+			System.out.println("Erreur d'enregistrement : ");
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * demande le nom d'un fichier à l'utilisateur et enregistre la commu dans ce
+	 * fichier au format dot de GraphViz
+	 *
+	 **/
+	public static void saveCommunauteToDotFile() {
+		System.out.println("Nom du fichier où enregistrer la communauté d'agglomération : ");
+		if (scan.hasNextLine()) {
+			scan.nextLine();
+		}
+		String path = scan.nextLine();
+		try {
+			commu.saveToDotFile(path);
 		} catch (IOException e) {
 			System.out.println("Erreur d'enregistrement : ");
 			System.out.println(e.getMessage());

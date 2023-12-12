@@ -372,4 +372,51 @@ public class CommunauteAgglomeration {
 		}
 		bw.close();
 	}
+	/**
+	 * enregistre la communauté d'agglomération dans un fichier au format dot de GraphViz
+	 * 
+	 * @param file_name chemin du fichier de sortie
+	 * @throws IOException si il y a un problème pour écrire dans le fichier
+	 **/
+	public void saveToDotFile(String file_name) throws IOException {
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file_name));
+		HashSet<UnorderedPair<Ville>> routesNonRedondance = new HashSet<UnorderedPair<Ville>>();
+		HashSet<Ville> bornes = new HashSet<Ville>();
+		StringBuilder sb = new StringBuilder();
+
+		bw.write("graph G {\n");
+
+
+		for (Ville ville : this.g.keySet()) {
+			sb.setLength(0); // clear the string Builder;
+			sb.append(ville.getNom());
+			sb.append(" [label=\"");
+			sb.append(ville.getNom());
+			if (ville.getBorne()) {
+				sb.append("\\nBorne");
+			}
+			sb.append("\"]\n");
+
+			bw.write(sb.toString());
+			System.out.println(sb.toString());
+			System.out.println(ville.getNom());
+
+			for (Ville voisin : this.g.get(ville)) {
+				UnorderedPair<Ville> u1 = new UnorderedPair<Ville>(ville,voisin);
+				UnorderedPair<Ville> u2 = new UnorderedPair<Ville>(voisin,ville);
+				System.out.println(u1.equals(u2));
+				routesNonRedondance.add(new UnorderedPair<Ville>(ville, voisin));
+			}
+		}
+		for (UnorderedPair<Ville> pairVilleRoute : routesNonRedondance) {
+			sb.setLength(0);
+			sb.append(pairVilleRoute.getFirst().getNom());
+			sb.append(" -- ");
+			sb.append(pairVilleRoute.getSecond().getNom());
+			sb.append("\n");
+			bw.write(sb.toString());
+		}
+		bw.write("}");
+		bw.close();
+	}
 }
