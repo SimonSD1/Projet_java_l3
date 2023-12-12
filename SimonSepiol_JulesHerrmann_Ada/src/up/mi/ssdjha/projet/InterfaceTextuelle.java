@@ -6,12 +6,45 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
 
+/**
+ * Simple name,function pair for option menus
+ **/
+class Action {
+	public String name;
+	public Runnable function;
+
+	public Action(String name, Runnable function){
+		this.name = name;
+		this.function = function;
+	}
+}
+
 public class InterfaceTextuelle {
 
 	public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 	private static CommunauteAgglomeration commu;
 	private static Scanner scan;
+	private static boolean utilisateurVeutContinuer;
+	private static boolean utilisateurVeutContinuerCreationRoute;
 	private static int nbVilles;
+
+
+	/**
+	 * Short Description
+	 *
+	 **/
+	private static void printOptionsAndCall(Action[] actionArray) {
+		int choix = 0;
+		do {
+			System.out.println("Que voulez vous faire ?");
+			for (int i = 0; i<actionArray.length; i++){
+				System.out.println(""+(i+1)+" : "+actionArray[i].name);
+			}
+			choix = scan.nextInt();
+
+		} while (choix <=0 || choix > actionArray.length);
+		actionArray[choix-1].function.run();
+	}
 
 	/**
 	 * Gere les differentes étapes de l'interface textuelle
@@ -19,26 +52,18 @@ public class InterfaceTextuelle {
 	public static void debuteInterface() {
 		scan = new Scanner(System.in);
 		commu = new CommunauteAgglomeration();
-		int choix = 0;
-		do {
-			System.out.println("Que voulez vous faire ?");
-			System.out.println("1 : ajouter villes a la main");
-			System.out.println("2 : lire un fichier");
-			choix = scan.nextInt();
 
-		} while (choix != 1 && choix != 2);
-
-		switch (choix) {
-		case 1:
-			recupereNombreVilles();
-			ajouteVillesAlphabet();
-			boucleCreationRoute();
-			break;
-
-		case 2:
-			creeCommunauteParFichier();
-			break;
-		}
+		printOptionsAndCall(new Action[] {
+			new Action("Ajouter villes à la main",
+				()->{
+					recupereNombreVilles();
+					ajouteVillesAlphabet();
+					boucleCreationRoute();
+			}),
+			new Action("Lire un fichier",
+				()->{
+					creeCommunauteParFichier();
+			})});
 
 		boucleResolutionProbleme();
 	}
@@ -89,97 +114,136 @@ public class InterfaceTextuelle {
 	 **/
 	public static void boucleResolutionProbleme() {
 		int choix = 0;
+		utilisateurVeutContinuer = true;
 
-		do {
+		while (utilisateurVeutContinuer) {
 			System.out.println(commu);
-			Vector<Ville> villes = commu.getVilles();
-			int indice = 0;
-			for (Ville v : villes) {
-				System.out.println(v.getNom() + " " + indice);
-				indice++;
+
+			printOptionsAndCall(new Action[] {
+				new Action("Ajouter zone de recharge",
+					()->{
+						ajouteZoneDeRecharge();
+				}),
+				new Action("Retirer zone de recharge",
+					()->{
+						retirerZoneDeRecharge();
+				}),
+				new Action("Résoudre par algorithme naïf",
+					()->{
+						Algorithme.resoudNaif(commu, 5);
+				}),
+				new Action("Résoudre par algorithme moins naïf",
+					()->{
+						Algorithme.resoudMoinsNaif(commu, 5);
+				}),
+				new Action("Résoudre par Welsh et powell",
+					()->{
+						Algorithme.welsh_powell(commu);
+				}),
+				new Action("Enregistrer mon travail",
+					()->{
+						saveCommunauteToFile();
+				}),
+				new Action("Exporter .dot file de la communauté d'aggomérations",
+					()->{
+						System.out.println("Oh no ! Cette fonctionnalité n'a pas encore été implémentée !");
+				}),
+				new Action("Terminer le programme",
+					()->{
+						cleanAndPreparetoEnd();
+				})
+			});
+
+		} 
+	}
+
+	/**
+	 * prépare la fermeture du programme : ferme les flux etc...
+	 **/
+	public static void cleanAndPreparetoEnd() {
+		System.out.println(commu);
+		scan.close();
+		utilisateurVeutContinuer = false;
+	}
+	/**
+	 * affiche toutes les villes avec un numéro et demande à l'utilisateur de choisir une ville
+	 * @return la ville choisie par l'utilisateur
+	 **/
+	public static Ville choixVille() {
+		Vector<Ville> villes = commu.getVilles();
+		int indice = 0;
+		System.out.println("Les villes sont identifiés par les nombres suivants :");
+		for (Ville v : villes) {
+			System.out.println(v.getNom() + " " + indice);
+			indice++;
+		}
+
+		int numeroVille = 0;
+		do {
+			if (numeroVille > commu.getNombreVilles()-1 || numeroVille < 0) {
+				System.out.println("Aucune ville n'a ce numéro");
 			}
-
-			do {
-				System.out.println("Que voulez vous faire ?");
-				System.out.println("1 : ajouter zone de recharge");
-				System.out.println("2 : retirer zone de recharge");
-				System.out.println("3 : resoudre par algorithme naif");
-				System.out.println("4 : resoudre par algorithme moins naif");
-				System.out.println("5 : resoudre welsh et powell");
-				System.out.println("6 : enregistrer mon travail");
-
-				System.out.println("7 : fin");
-				choix = scan.nextInt();
-
-			} while (choix < 1 || choix > 7);
-
-			int numeroVille = 0;
-			Ville v;
-			switch (choix) {
-
-			case 1:
-
-				do {
-					if (numeroVille > indice || numeroVille < 0) {
-						System.out.println("ville inexistante");
-					}
-					System.out.println("quelle ville ?");
-					numeroVille = scan.nextInt();
-				} while (numeroVille > indice || numeroVille < 0);
-
-				v = commu.getVilles().get(numeroVille);
-				if (v.getBorne()) {
-					System.out.println("cette ville a déjà une borne");
-				} else {
-					v.setBorne(true);
-				}
-				break;
-
-			case 2:
-
-				do {
-					if (numeroVille > indice || numeroVille < 0) {
-						System.out.println("ville inexistante");
-					}
-					System.out.println("quelle ville ?");
-					numeroVille = scan.nextInt();
-				} while (numeroVille > indice || numeroVille < 0);
-
-				v = commu.getVilles().get(numeroVille);
-
-				if (v.getBorne() == false) {
-					System.out.println("cette ville n'as pas de borne");
-				} else if (commu.peutEtreEnleve(v)) {
-					v.setBorne(false);
-				} else {
-					System.out.println("impossible a cause de " + commu.trouveVoisinNonValide(v));
-				}
-				break;
-
-			case 3:
-				Algorithme.resoudNaif(commu, 5);
-				break;
-
-			case 4:
-				Algorithme.resoudMoinsNaif(commu, 5);
-				break;
-
-			case 5:
-				Algorithme.welsh_powell(commu);
-				break;
-
-			case 6:
-				saveCommunauteToFile();
-				break;
-
-			case 7:
-				System.out.println(commu);
-
-				scan.close();
-				break;
+			System.out.println("Entrez le nombre correspondant à la ville de votre choix");
+			try{
+				numeroVille = scan.nextInt();
+			}catch(InputMismatchException e){
+				scan.nextLine(); // flush the scanner of the invalid value
+				numeroVille = -1;
 			}
+		} while (numeroVille > commu.getNombreVilles()-1 || numeroVille < 0);
 
-		} while (choix != 6);
+		return villes.get(numeroVille);
+	}
+
+	/**
+	 * Interface textuelle demandant à l'utilisateur les infos pour retirer une zone de recharge
+	 **/
+	public static void retirerZoneDeRecharge() {
+		Ville v = choixVille();
+
+		if (v.getBorne() == false) {
+			System.out.println("Cette ville n'as pas de borne");
+		} else if (commu.peutEtreEnleve(v)) {
+			v.setBorne(false);
+		} else {
+			System.out.println("Opération impossible. La ville suivante dépend de cette borne : " + commu.trouveVoisinNonValide(v));
+
+		}
+	}
+
+	/**
+	 * Interface textuelle demandant à l'utilisateur les infos pour ajouter une zone de recharge
+	 **/
+	public static void ajouteZoneDeRecharge() {
+		Ville v = choixVille();
+
+		if (v.getBorne()) {
+			System.out.println("Cette ville a déjà une borne");
+		} else {
+			v.setBorne(true);
+		}
+
+	}
+	/**
+	 * Interface textuelle demandant à l'utilisateur les infos pour créer une route
+	 **/
+	public static void creerRoute() {
+		boolean villesIdentiques = false;
+		Ville ville1;
+		Ville ville2;
+		
+		System.out.println("Choisissez la première ville :");
+		ville1 = choixVille();
+		do {
+			if (villesIdentiques){
+				System.out.println("Cette ville est identique à la première");
+			}
+			System.out.println("Choisissez la seconde ville :");
+			ville2 = choixVille();
+			villesIdentiques = (ville1 == ville2);
+		} while(villesIdentiques);
+
+		commu.ajoutRoute(ville1,ville2);
 	}
 
 	/**
@@ -190,59 +254,21 @@ public class InterfaceTextuelle {
 	 * @param int                     nombre de ville a ajouter
 	 **/
 	public static void boucleCreationRoute() {
-		int choix = 0;
-		do {
+		utilisateurVeutContinuerCreationRoute = true;
 
-			do {
-				System.out.println("Que voulez vous faire ?");
-				System.out.println("1 : ajouter une route, 2 : fin");
-				choix = scan.nextInt();
-				System.out.println("Entrez le chiffre proposée à droite :");
-
-			} while (choix != 1 && choix != 2);
-
-			switch (choix) {
-
-			case 1:
-
-				Vector<Ville> villes = commu.getVilles();
-				int indice = 0;
-				for (Ville v : villes) {
-					System.out.println(v.getNom() + " " + indice);
-					indice++;
-				}
-
-				int ville1 = 0, ville2 = 0;
-
-				do {
-					if (ville1 > indice || ville1 < 0) {
-						System.out.println("ville inexistante");
-					}
-					System.out.println("ville de depart ?");
-					ville1 = scan.nextInt();
-				} while (ville1 > indice || ville1 < 0);
-
-				boolean premiereDemande = true;
-				do {
-					if (ville2 > indice || ville2 < 0) {
-						System.out.println("ville inexistante");
-					}
-					if (premiereDemande == false && ville1 == ville2) {
-						System.out.println("ville identique a la premiere");
-					}
-					System.out.println("ville de d'arrive ?");
-
-					ville2 = scan.nextInt();
-					premiereDemande = false;
-				} while (ville2 > indice || ville2 < 0 || ville2 == ville1);
-
-				commu.ajoutRoute(villes.get(ville1), villes.get(ville2));
-				break;
-
-			case 2:
-				break;
-			}
-		} while (choix != 2);
+		while (utilisateurVeutContinuerCreationRoute){
+			System.out.println(commu);
+			printOptionsAndCall(new Action[] {
+				new Action("Ajouter une route",
+					()->{
+						creerRoute();
+				}),
+				new Action("Aller au menu principal",
+					()->{
+						utilisateurVeutContinuerCreationRoute = false;
+				})
+			});
+		}
 	}
 
 	/**

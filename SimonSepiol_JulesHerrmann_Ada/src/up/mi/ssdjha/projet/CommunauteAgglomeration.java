@@ -216,6 +216,13 @@ public class CommunauteAgglomeration {
 	}
 
 	/**
+	 * @return le nombre de villes dans la communauté d'agglomération
+	 **/
+	public int getNombreVilles() {
+		return g.size();
+	}
+
+	/**
 	 * @return villes la liste de toutes les villes de l'agglomération
 	 **/
 	public Vector<Ville> getVilles() {
@@ -226,6 +233,9 @@ public class CommunauteAgglomeration {
 		return villes;
 	}
 
+	/**
+	 * @return true si ville1 et ville2 sont voisines, false sinon
+	 **/
 	public boolean estVoisin(Ville ville1, Ville ville2) {
 		if (g.get(ville1).contains(ville2)) {
 			return true;
@@ -240,13 +250,14 @@ public class CommunauteAgglomeration {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Etat de la communaute d'agglomeration : \n");
 		for (Ville key : g.keySet()) {
-			sb.append("\n");
+			sb.append("\n Nom = ");
 			sb.append(key.getNom());
-			sb.append(" possede une borne ? : ");
+			sb.append("; possede une borne = ");
 			sb.append(key.getBorne());
-			sb.append(" relie à : ");
+			sb.append("; Voisin(s) = ");
 			for (Ville v : g.get(key)) {
 				sb.append(v.getNom());
+				sb.append(" ");
 			}
 		}
 
@@ -254,8 +265,6 @@ public class CommunauteAgglomeration {
 	}
 
 	/**
-	 * Short Description
-	 * 
 	 * @param nomVille nom d'une ville
 	 * @throws VilleInexistanteException si aucune ville ne porte se nom
 	 * @return la ville portant ce nom
