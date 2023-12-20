@@ -152,10 +152,6 @@ public class Algorithme {
 
 		int[] coloriage = glouton(communaute, ordre);
 
-		for (int i = 0; i < coloriage.length; i++) {
-			System.out.println(coloriage[i]);
-		}
-
 		int indice = 0;
 		for (Ville v : communaute.getVilles()) {
 			if (coloriage[indice] == 1) {

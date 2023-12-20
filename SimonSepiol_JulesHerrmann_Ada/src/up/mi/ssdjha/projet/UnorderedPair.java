@@ -29,7 +29,6 @@ public class UnorderedPair<T> {
 	public boolean equals(Object o) {
 		if (getClass() != o.getClass()) return false;
 		UnorderedPair b = (UnorderedPair) o;
-		System.out.println("heyho");
 		return (this.first.equals(b.getFirst()) && this.second.equals(b.getSecond())) || (this.second.equals(b.getFirst()) && this.first.equals(b.getSecond()));
 	}
 
