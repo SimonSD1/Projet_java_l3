@@ -404,7 +404,9 @@ public class CommunauteAgglomeration {
 			for (Ville voisin : this.g.get(ville)) {
 				UnorderedPair<Ville> u1 = new UnorderedPair<Ville>(ville,voisin);
 				UnorderedPair<Ville> u2 = new UnorderedPair<Ville>(voisin,ville);
-				System.out.println(u1.equals(u2));
+				System.out.println(u1.equals((Object)u2));
+				System.out.println(u1.hashCode());
+				System.out.println(u2.hashCode());
 				routesNonRedondance.add(new UnorderedPair<Ville>(ville, voisin));
 			}
 		}

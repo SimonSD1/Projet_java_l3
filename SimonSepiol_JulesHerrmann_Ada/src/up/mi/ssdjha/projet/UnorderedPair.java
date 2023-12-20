@@ -11,14 +11,10 @@ import java.util.HashSet;
  * ne marche par pour l'instant :/
  **/
 public class UnorderedPair<T> {
-	private Set<T> set;
 	private T first;
 	private T second;
 
 	public UnorderedPair(T a, T b) {
-		set = new HashSet<T>();
-		set.add(a);
-		set.add(b);
 		first = a;
 		second = b;
 	}
@@ -30,11 +26,14 @@ public class UnorderedPair<T> {
 		return second;
 	}
 
-	public boolean equals(Object b) {
-		return set.equals(b);
+	public boolean equals(Object o) {
+		if (getClass() != o.getClass()) return false;
+		UnorderedPair b = (UnorderedPair) o;
+		System.out.println("heyho");
+		return (this.first.equals(b.getFirst()) && this.second.equals(b.getSecond())) || (this.second.equals(b.getFirst()) && this.first.equals(b.getSecond()));
 	}
 
 	public int hashCode() {
-		return set.hashCode();
+		return this.first.hashCode() + this.second.hashCode();
 	}
 }

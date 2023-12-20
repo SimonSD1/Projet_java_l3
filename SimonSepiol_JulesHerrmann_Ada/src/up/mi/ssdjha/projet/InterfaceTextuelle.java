@@ -67,6 +67,18 @@ public class InterfaceTextuelle {
 
 		boucleResolutionProbleme();
 	}
+	public static void debuteInterface(String nomFichier) {
+		scan = new Scanner(System.in);
+		commu = new CommunauteAgglomeration();
+
+		try {
+			commu = CommunauteAgglomeration.createFromFile(nomFichier);
+		} catch (SyntaxErrorException | IOException e) {
+			System.err.println(e.getMessage());
+			System.exit(1);
+		}
+		boucleResolutionProbleme();
+	}
 
 	public static void creeCommunauteParFichier() {
 		boolean reussi = false;
@@ -79,7 +91,8 @@ public class InterfaceTextuelle {
 				commu = CommunauteAgglomeration.createFromFile(nomFichier);
 				reussi = true;
 			} catch (SyntaxErrorException | IOException e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
+				System.exit(1);
 			}
 
 		} while (reussi != true);
@@ -130,11 +143,11 @@ public class InterfaceTextuelle {
 				}),
 				new Action("Résoudre par algorithme naïf",
 					()->{
-						Algorithme.resoudNaif(commu, 5);
+						Algorithme.resoudNaif(commu, 2*commu.getNombreVilles());
 				}),
 				new Action("Résoudre par algorithme moins naïf",
 					()->{
-						Algorithme.resoudMoinsNaif(commu, 5);
+						Algorithme.resoudMoinsNaif(commu, 2*commu.getNombreVilles());
 				}),
 				new Action("Résoudre par Welsh et powell",
 					()->{
