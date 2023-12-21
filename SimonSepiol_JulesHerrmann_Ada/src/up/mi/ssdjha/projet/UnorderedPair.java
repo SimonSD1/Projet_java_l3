@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * Classe pour contenir une paire non orienté de telle sorte que 
+ * Classe pour contenir un couple non orienté de telle sorte que 
  * UnorderedPair(A,B).equals(UnorderedPair(B,A) = true
  * UnorderedPair(A,B).hashCode() == UnorderedPair(B,A).hashCode()
  *
@@ -19,22 +19,22 @@ public class UnorderedPair<T> {
 		second = b;
 	}
 
-	/** Méthode qui permet de retourner avec
-	 * @return la 1ère paire.**/
+	/** Méthode qui permet de revoie avec
+	 * @return le 1er couple.**/
 	
 	public T getFirst(){
 		return first;
 	}
 
-	/** Méthode qui permet de retourner avec
-	 * @return la 2ème paire.**/
+	/** Méthode qui permet de renvoie avec
+	 * @return le 2ème couple.**/
 	
 	public T getSecond(){
 		return second;
 	}
 
 	/**Méthode qui
-	 * @return true si la pair passer en paramètre est égale à la paire
+	 * @return true si le couple passer en paramètre est égale à au couple
 	 * qu'on essaye de créer.**/
 	
 	public boolean equals(Object o) {
@@ -50,7 +50,7 @@ public class UnorderedPair<T> {
 	 *   @return l'égalité entre les deux paires. 
 	 *   
 	 *   Si ils sont égaux, alors ils retourneront le même chiffre.
-	 *   Si ils ne sont pas égaux, alors les objets sont différents. **/
+	 *   Si ils ne sont pas égaux, on en déduit que les couples sont différents. **/
 	
 	public int hashCode() {
 		return this.first.hashCode() + this.second.hashCode();
