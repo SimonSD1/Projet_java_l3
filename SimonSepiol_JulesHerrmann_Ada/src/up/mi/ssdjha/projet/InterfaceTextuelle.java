@@ -92,7 +92,6 @@ public class InterfaceTextuelle {
 				reussi = true;
 			} catch (SyntaxErrorException | IOException e) {
 				System.err.println(e.getMessage());
-				System.exit(1);
 			}
 
 		} while (reussi != true);
