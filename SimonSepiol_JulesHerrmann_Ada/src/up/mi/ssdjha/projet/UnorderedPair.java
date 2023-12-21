@@ -8,7 +8,6 @@ import java.util.HashSet;
  * UnorderedPair(A,B).equals(UnorderedPair(B,A) = true
  * UnorderedPair(A,B).hashCode() == UnorderedPair(B,A).hashCode()
  *
- * ne marche par pour l'instant :/
  **/
 public class UnorderedPair<T> {
 	private T first;
@@ -20,22 +19,21 @@ public class UnorderedPair<T> {
 	}
 
 	/** Méthode qui permet de revoie avec
-	 * @return le 1er couple.**/
+	 * @return le 1er élement du couple.**/
 	
 	public T getFirst(){
 		return first;
 	}
 
 	/** Méthode qui permet de renvoie avec
-	 * @return le 2ème couple.**/
+	 * @return le 2ème élément du couple.**/
 	
 	public T getSecond(){
 		return second;
 	}
 
 	/**Méthode qui
-	 * @return true si le couple passer en paramètre est égale à au couple
-	 * qu'on essaye de créer.**/
+	 * @return true si le couple passé en paramètre est égale au couple**/
 	
 	public boolean equals(Object o) {
 		if (getClass() != o.getClass()) return false;
