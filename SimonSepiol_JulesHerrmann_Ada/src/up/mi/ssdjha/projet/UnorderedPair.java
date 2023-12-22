@@ -45,7 +45,7 @@ public class UnorderedPair<T> {
 	/**Méthode qui permet de faire comprendre à la machine que, par exemple
 	 *  "UnorderedPair(A,B).hashCode() == UnorderedPair(B,A).hashCode()"
 	 *  
-	 *   @return l'égalité entre les deux paires. 
+	 *   @return l'égalité entre les deux couples. 
 	 *   
 	 *   Si ils sont égaux, alors ils retourneront le même chiffre.
 	 *   Si ils ne sont pas égaux, on en déduit que les couples sont différents. **/
