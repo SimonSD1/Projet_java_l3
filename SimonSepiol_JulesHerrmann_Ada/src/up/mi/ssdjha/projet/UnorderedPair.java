@@ -33,7 +33,7 @@ public class UnorderedPair<T> {
 	}
 
 	/**Méthode qui
-	 * @return true si le couple passé en paramètre est égale au couple**/
+	 * @return true si le couple passé en paramètre est égale au couple avec lequel on le compare. **/
 	
 	public boolean equals(Object o) {
 		if (getClass() != o.getClass()) return false;
